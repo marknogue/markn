@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { PROJECTS } from "../lib/placeholders";
 import { INSTAGRAM_URL, SITE_EMAIL, SITE_LOCATION, SITE_NAME } from "../lib/site";
 
 export const metadata: Metadata = {
@@ -14,8 +13,6 @@ export const metadata: Metadata = {
     url: "/contact",
   },
 };
-
-const IMAGES = [PROJECTS[0].images[0], PROJECTS[0].images[6]];
 
 const INSTAGRAM_HANDLE = `@${new URL(INSTAGRAM_URL).pathname.replaceAll("/", "")}`;
 
@@ -43,23 +40,7 @@ export function ContactSection({ id }: { id?: string }) {
       </div>
 
       <div className="px-6 md:px-10 lg:px-[120px] max-w-[1200px] mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 items-center">
-          {IMAGES.map((img) => (
-            <img
-              key={img.src}
-              src={img.src}
-              alt="Photograph by Markn"
-              width={img.w}
-              height={img.h}
-              loading="lazy"
-              decoding="async"
-              style={{ width: "100%", height: "auto" }}
-              className="block"
-            />
-          ))}
-        </div>
-
-        <div className="mt-[5em] md:mt-[8em] text-center">
+        <div className="text-center">
           <h2
             style={{
               fontFamily: "var(--font-times), serif",
