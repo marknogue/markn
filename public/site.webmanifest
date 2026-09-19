@@ -1,0 +1,9 @@
+{
+  "name": "Markn",
+  "short_name": "Markn",
+  "description": "London based photographer and director.",
+  "icons": [],
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "display": "standalone"
+}

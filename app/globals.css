@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+:root {
+    --white-smoke: #ffffff;
+    --brand-black: #141210;
+    --item-w: 88%;
+    --item-w-full: 100%;
+    --bg: var(--white-smoke);
+    --fg: var(--brand-black);
+}
+
+@theme inline {
+    --color-background: var(--white-smoke);
+    --color-foreground: var(--brand-black);
+    --font-sans: var(--font-times);
+    --font-serif: var(--font-times);
+}
+
+@media (min-width: 768px) {
+    :root {
+        --item-w: 72%;
+        --item-w-full: 100%;
+    }
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-times), serif;
+    font-size: 14px;
+    line-height: 1.5;
+    transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.nav-full {
+    transition: opacity 0.15s ease 0.15s;
+}
+
+body.is-scrolled .nav-full {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease 0s;
+}
+
+@media (hover: hover) {
+    .nav-root:hover .nav-full {
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        transition: opacity 0.3s ease;
+    }
+
+    body:has(.nav-root:hover) .section-name {
+        opacity: 0 !important;
+        pointer-events: none !important;
+        transition: opacity 0.3s ease;
+    }
+}
+
+body:has(.about-page) footer {
+    display: none;
+}
+
+body:has(.hlb:target),
+body:has(.hlb-one:target),
+body:has(.lightbox:target) {
+    overflow: hidden;
+}
+
+.section-name {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease 0s;
+}
+
+body.is-scrolled .section-name {
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.15s ease 0.15s;
+}
+
+body.nav-open .nav-full,
+body.nav-reveal .nav-full {
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.3s ease;
+}
+
+body.nav-open .section-name,
+body.nav-reveal .section-name {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
