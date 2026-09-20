@@ -1,5 +1,3 @@
-import { PROJECTS } from "./placeholders";
-
 export type GalleryImg = { thumb: string; src: string; w: number; h: number };
 
 export type Item =
@@ -8,27 +6,6 @@ export type Item =
   | { type: "video"; id: string; href: string; src: string; width?: number; height?: number; landscape?: boolean; caption?: string; gallery?: GalleryImg[] };
 
 export type Placed = { item: Item; align: string };
-
-const HOME_PICKS_PER_PROJECT = 3;
-
-export const HOME_ITEMS: Item[] = Array.from({ length: HOME_PICKS_PER_PROJECT }).flatMap((_, pick) =>
-  PROJECTS.filter((project) => project.images[pick]).map((project) => {
-    const img = project.images[pick];
-    return {
-      type: "image" as const,
-      id: `${project.slug}-${pick}`,
-      href: "#",
-      image: img.src,
-      width: img.w,
-      height: img.h,
-      landscape: img.w > img.h,
-      caption: project.title,
-      gallery: project.images.map((g) => ({ thumb: g.src, src: g.src, w: g.w, h: g.h })),
-    };
-  })
-);
-
-export const PRELOADER_IMAGES = PROJECTS.map((project) => project.images[0]);
 
 export const isFullWidth = (item: Item) => {
   if (item.type === "video") return true;

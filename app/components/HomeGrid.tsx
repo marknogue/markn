@@ -63,8 +63,7 @@ function MediaCard({ item, align }: { item: Item; align: string }) {
           <span
             className="text-[var(--brand-black)]"
             style={{
-              fontFamily: "var(--font-times-bold), serif",
-              fontWeight: 700,
+              fontFamily: "var(--font-times), serif",
               fontSize: "clamp(20px, 2vw, 26px)",
             }}
           >
@@ -92,8 +91,7 @@ function MediaCard({ item, align }: { item: Item; align: string }) {
           <span
             className="block text-center text-[var(--brand-black)]"
             style={{
-              fontFamily: "var(--font-times-bold), serif",
-              fontWeight: 700,
+              fontFamily: "var(--font-times), serif",
               fontSize: "16px",
             }}
           >
@@ -126,9 +124,7 @@ function LightboxHeader({
           lineHeight: "1.5",
         }}
       >
-        <strong style={{ fontFamily: "var(--font-times-bold), serif", fontWeight: 700 }}>
-            Markn
-          </strong>
+        <span>Markn</span>
         <span style={{ opacity: 0.6 }}>
           {" "}/ Images{caption ? ` / ${caption}` : ""}
         </span>
@@ -408,11 +404,15 @@ export function HomeGrid({
   colA,
   colB,
   preloaderImages,
+  secondsPerImage,
+  holdSeconds,
 }: {
   items: Item[];
   colA: Placed[];
   colB: Placed[];
   preloaderImages?: PreImg[];
+  secondsPerImage?: number;
+  holdSeconds?: number;
 }) {
   const mainRef = useRef<HTMLElement>(null);
 
@@ -442,7 +442,11 @@ export function HomeGrid({
       className="pt-[120px] md:pt-[180px] pb-[6em] md:pb-[10em]"
       style={{ backgroundColor: "var(--white-smoke)", color: "var(--brand-black)" }}
     >
-      <Preloader images={preloaderImages} />
+      <Preloader
+        images={preloaderImages}
+        secondsPerImage={secondsPerImage}
+        holdSeconds={holdSeconds}
+      />
       <style dangerouslySetInnerHTML={{ __html: HLB_CSS }} />
       <div
         className="section-name sticky z-20 text-center pb-[2em] md:pb-[4em]"
@@ -450,8 +454,7 @@ export function HomeGrid({
       >
         <span
           style={{
-            fontFamily: "var(--font-times-bold), serif",
-            fontWeight: 700,
+            fontFamily: "var(--font-times), serif",
             fontSize: "clamp(18px, 1.7vw, 23px)",
             lineHeight: "1.6",
           }}

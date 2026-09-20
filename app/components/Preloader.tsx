@@ -84,13 +84,26 @@ function FrameView({ frame }: { frame: Frame }) {
   );
 }
 
-export function Preloader({ images }: { images?: PreImg[] }) {
+const DEFAULT_SECONDS_PER_IMAGE = 0.28;
+const DEFAULT_HOLD_SECONDS = 2;
+
+export function Preloader({
+  images,
+  secondsPerImage = DEFAULT_SECONDS_PER_IMAGE,
+  holdSeconds = DEFAULT_HOLD_SECONDS,
+}: {
+  images?: PreImg[];
+  secondsPerImage?: number;
+  holdSeconds?: number;
+}) {
   const rootRef = useRef<HTMLDivElement>(null);
   const framesRef = useRef<HTMLDivElement>(null);
   const nameRef = useRef<HTMLSpanElement>(null);
   const [done, setDone] = useState(false);
 
   const frames = images && images.length ? buildFrames(images) : [];
+  const nameIn = frames.length * secondsPerImage + 0.15;
+  const totalSeconds = nameIn + 0.5 + holdSeconds + 0.7;
 
   useGSAP(
     () => {
@@ -114,7 +127,7 @@ export function Preloader({ images }: { images?: PreImg[] }) {
         setDone(true);
       };
 
-      const fallback = window.setTimeout(finish, 5500);
+      const fallback = window.setTimeout(finish, totalSeconds * 1000 + 400);
 
       const tl = gsap.timeline({
         defaults: { ease: "power2.out" },
@@ -124,17 +137,15 @@ export function Preloader({ images }: { images?: PreImg[] }) {
       gsap.set(frameEls, { opacity: 0, scale: 1.06 });
       gsap.set(name, { opacity: 0 });
 
-      const step = 0.28;
       frameEls.forEach((f, i) => {
-        tl.to(f, { opacity: 1, scale: 1, duration: 0.5 }, i * step);
+        tl.to(f, { opacity: 1, scale: 1, duration: 0.5 }, i * secondsPerImage);
       });
 
-      const nameIn = frameEls.length * step + 0.15;
       tl.to(name, { opacity: 1, duration: 0.5 }, nameIn);
       tl.to(
         root,
         { opacity: 0, duration: 0.7, ease: "power2.inOut" },
-        nameIn + 0.5 + 2.0
+        nameIn + 0.5 + holdSeconds
       );
 
       return () => window.clearTimeout(fallback);
@@ -148,6 +159,7 @@ export function Preloader({ images }: { images?: PreImg[] }) {
     <div
       ref={rootRef}
       id="preloader"
+      data-timeout={Math.round(totalSeconds * 1000)}
       className="fixed inset-0 z-[100] overflow-hidden"
       style={{ backgroundColor: "var(--white-smoke)" }}
     >
@@ -162,8 +174,7 @@ export function Preloader({ images }: { images?: PreImg[] }) {
           ref={nameRef}
           className="text-center leading-none whitespace-nowrap"
           style={{
-            fontFamily: "var(--font-times-bold), serif",
-            fontWeight: 700,
+            fontFamily: "var(--font-times), serif",
             fontSize: "clamp(27px, 7.8vw, 108px)",
             color: "var(--brand-black)",
             opacity: 0,

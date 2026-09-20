@@ -1,23 +1,17 @@
-import { homeMedia } from "./homeMedia";
-import { overviewCell } from "./overviewCell";
+import { imagesMedia } from "./imagesMedia";
 import { motionMedia } from "./motionMedia";
-import { homePage } from "./homePage";
-import { overviewPage } from "./overviewPage";
+import { imagesPage } from "./imagesPage";
 import { motionPage } from "./motionPage";
 import { aboutPage } from "./aboutPage";
-import { studioPage } from "./studioPage";
 import { preloaderPage } from "./preloaderPage";
 import { siteSettings } from "./siteSettings";
 
 export const schemaTypes = [
-  homeMedia,
-  overviewCell,
+  imagesMedia,
   motionMedia,
-  homePage,
-  overviewPage,
+  imagesPage,
   motionPage,
   aboutPage,
-  studioPage,
   preloaderPage,
   siteSettings,
 ];

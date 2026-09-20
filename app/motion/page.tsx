@@ -1,6 +1,33 @@
 import type { Metadata } from "next";
-import { cells as allCells, desktopRows, mobileRows, type Cell, type Media, type Row } from "./data";
+import { type Cell, type Media, type Row } from "./data";
+import { packRows } from "../lib/mosaic";
+import { sized } from "../lib/sanity/client";
+import { getMotion, type Media as SanityMedia } from "../lib/sanity/queries";
 import { Lightbox } from "./LightboxClient";
+
+const round = (n: number) => Math.round(n * 1e4) / 1e4;
+
+function buildFromSanity(items: SanityMedia[]) {
+  const cells: Cell[] = items.map((m) => {
+    const ar = round(m.width / m.height);
+    const item: Media = {
+      kind: m.type === "video" ? "video" : "gif",
+      src: m.type === "video" ? m.src : sized(m.src, 900, 65),
+      w: m.width,
+      h: m.height,
+      ar,
+      caption: m.caption,
+      poster: m.poster ? sized(m.poster, 900, 65) : undefined,
+    };
+    return { type: "single", ar, item };
+  });
+  const packable = cells.map((c) => ({ ar: c.ar, data: c }));
+  return {
+    cells,
+    desktopRows: packRows(packable, 1280, 50, 320, 2),
+    mobileRows: packRows(packable, 390, 14, 240, 1),
+  };
+}
 
 const ROW_GAP_PCT = 5;
 const ROW_MARGIN_PCT = 5;
@@ -19,8 +46,7 @@ function HoverOverlay({ caption }: { caption?: string }) {
       <span
         className="text-[var(--brand-black)]"
         style={{
-          fontFamily: "var(--font-times-bold), serif",
-          fontWeight: 700,
+          fontFamily: "var(--font-times), serif",
           fontSize: "clamp(13px, 1.1vw, 16px)",
         }}
       >
@@ -143,7 +169,10 @@ export const metadata: Metadata = {
   },
 };
 
-export function MotionSection({ id }: { id?: string }) {
+export async function MotionSection({ id }: { id?: string }) {
+  const media = await getMotion();
+  const { cells: allCells, desktopRows, mobileRows } = buildFromSanity(media || []);
+
   return (
     <section
       id={id}
@@ -158,8 +187,7 @@ export function MotionSection({ id }: { id?: string }) {
       >
         <span
           style={{
-            fontFamily: "var(--font-times-bold), serif",
-            fontWeight: 700,
+            fontFamily: "var(--font-times), serif",
             fontSize: "clamp(18px, 1.7vw, 23px)",
             lineHeight: "1.6",
           }}

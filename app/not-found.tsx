@@ -9,8 +9,7 @@ export default function NotFound() {
       <p
         className="m-0"
         style={{
-          fontFamily: "var(--font-times-bold), serif",
-          fontWeight: 700,
+          fontFamily: "var(--font-times), serif",
           fontSize: "clamp(64px, 14vw, 160px)",
           lineHeight: "1",
         }}
@@ -32,8 +31,7 @@ export default function NotFound() {
         href="/"
         className="mt-10 hover:opacity-60 transition-opacity duration-200"
         style={{
-          fontFamily: "var(--font-times-bold), serif",
-          fontWeight: 700,
+          fontFamily: "var(--font-times), serif",
           fontSize: "11px",
         }}
       >

@@ -5,20 +5,18 @@ import { media } from "sanity-plugin-media";
 import { schemaTypes } from "./schemas";
 
 const singletons = [
-  { id: "homePage", title: "Latest Series (Home)" },
-  { id: "overviewPage", title: "Portfolio Overview" },
+  { id: "imagesPage", title: "Images" },
   { id: "motionPage", title: "Motion" },
   { id: "aboutPage", title: "About" },
-  { id: "studioPage", title: "Studio" },
-  { id: "preloaderPage", title: "Preloader" },
-  { id: "siteSettings", title: "Settings" },
+  { id: "preloaderPage", title: "Opening animation" },
+  { id: "siteSettings", title: "Contact & settings" },
 ];
 
 export default defineConfig({
   name: "default",
   title: "Markn",
   projectId: process.env.SANITY_STUDIO_PROJECT_ID || "",
-  dataset: "production",
+  dataset: process.env.SANITY_STUDIO_DATASET || "production",
   plugins: [
     structureTool({
       structure: (S) =>

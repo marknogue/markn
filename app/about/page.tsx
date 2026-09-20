@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import { INSTAGRAM_URL, SITE_EMAIL, SITE_NAME } from "../lib/site";
+import { getAbout, getSettings } from "../lib/sanity/queries";
 
 export const metadata: Metadata = {
   title: "About",
@@ -48,11 +50,15 @@ const bodyStyle: React.CSSProperties = {
   lineHeight: "1.6",
 };
 
+const ptComponents: PortableTextComponents = {
+  block: { normal: ({ children }) => <p className="m-0">{children}</p> },
+};
+
 function NameList({ title, names }: { title: string; names: string[] }) {
   return (
     <div className="mt-[1.8em]" style={bodyStyle}>
       <p className="m-0 opacity-50">{title}</p>
-      <ul className="mt-2 m-0 p-0 list-none columns-2 sm:columns-3 lg:columns-4 gap-x-7 text-left max-w-[680px] mx-auto">
+      <ul className="mt-2 m-0 p-0 list-none columns-3 sm:columns-4 lg:columns-5 gap-x-4 sm:gap-x-7 text-left max-w-[680px] mx-auto">
         {[...names].sort(byName).map((name) => (
           <li key={name} className="break-inside-avoid">
             {name}
@@ -63,13 +69,22 @@ function NameList({ title, names }: { title: string; names: string[] }) {
   );
 }
 
-export function AboutSection({
+export async function AboutSection({
   id,
   standalone = false,
 }: {
   id?: string;
   standalone?: boolean;
 }) {
+  const [about, settings] = await Promise.all([getAbout(), getSettings()]);
+
+  const bio = about?.bio?.length ? about.bio : null;
+  const publications = about?.publications?.length ? about.publications : PUBLICATIONS;
+  const clients = about?.clients?.length ? about.clients : CLIENTS;
+  const copyrightLine = about?.copyright || copyright;
+  const email = settings?.email || SITE_EMAIL;
+  const instagramUrl = settings?.instagramUrl || INSTAGRAM_URL;
+
   return (
     <section
       id={id}
@@ -87,8 +102,7 @@ export function AboutSection({
         >
           <span
             style={{
-              fontFamily: "var(--font-times-bold), serif",
-              fontWeight: 700,
+              fontFamily: "var(--font-times), serif",
               fontSize: "clamp(18px, 1.7vw, 23px)",
               lineHeight: "1.6",
             }}
@@ -107,29 +121,35 @@ export function AboutSection({
             lineHeight: "1.45",
           }}
         >
-          <p className="m-0">
-            {SITE_NAME} is a London based photographer and director. His
-            images explore themes surrounding intimacy and connection, and
-            celebrate inclusivity and diversity.
-          </p>
-          <p className="m-0">
-            {SITE_NAME} is currently working on several ongoing stills and
-            moving image projects within fashion and documentary.
-          </p>
+          {bio ? (
+            <PortableText value={bio} components={ptComponents} />
+          ) : (
+            <>
+              <p className="m-0">
+                {SITE_NAME} is a London based photographer and director. His
+                images explore themes surrounding intimacy and connection, and
+                celebrate inclusivity and diversity.
+              </p>
+              <p className="m-0">
+                {SITE_NAME} is currently working on several ongoing stills and
+                moving image projects within fashion and documentary.
+              </p>
+            </>
+          )}
         </div>
 
         <div className="mt-[1.8em] flex flex-col gap-1" style={bodyStyle}>
           <p className="m-0">
             E:{" "}
             <a
-              href={`mailto:${SITE_EMAIL}`}
+              href={`mailto:${email}`}
               className="hover:opacity-60 transition-opacity duration-200"
             >
-              {SITE_EMAIL}
+              {email}
             </a>
             {"    "}
             <a
-              href={INSTAGRAM_URL}
+              href={instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="hover:opacity-60 transition-opacity duration-200"
@@ -139,8 +159,8 @@ export function AboutSection({
           </p>
         </div>
 
-        <NameList title="Selected Publications" names={PUBLICATIONS} />
-        <NameList title="Select Clients" names={CLIENTS} />
+        <NameList title="Selected Publications" names={publications} />
+        <NameList title="Select Clients" names={clients} />
 
         <p
           className="m-0 mt-[1.8em] opacity-40"
@@ -149,7 +169,7 @@ export function AboutSection({
             fontSize: "clamp(10px, 1vw, 11px)",
           }}
         >
-          {copyright}
+          {copyrightLine}
         </p>
       </div>
     </section>

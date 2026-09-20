@@ -1,4 +1,5 @@
 import { defineType, defineField } from "sanity";
+import { createBatchMediaInput } from "../components/BatchMediaInput";
 
 export const motionPage = defineType({
   name: "motionPage",
@@ -7,10 +8,12 @@ export const motionPage = defineType({
   fields: [
     defineField({
       name: "items",
-      title: "Motion items",
+      title: "Films",
       type: "array",
       of: [{ type: "motionMedia" }],
-      description: "Drag to reorder. Videos and GIFs for the Motion page.",
+      components: { input: createBatchMediaInput("motionMedia") },
+      description:
+        "Drag films to change the order they appear on the site.",
     }),
   ],
   preview: { prepare: () => ({ title: "Motion" }) },

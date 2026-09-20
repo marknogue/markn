@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { INSTAGRAM_URL, SITE_EMAIL, SITE_LOCATION, SITE_NAME } from "../lib/site";
+import { getSettings } from "../lib/sanity/queries";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -14,9 +15,14 @@ export const metadata: Metadata = {
   },
 };
 
-const INSTAGRAM_HANDLE = `@${new URL(INSTAGRAM_URL).pathname.replaceAll("/", "")}`;
+const handleFrom = (url: string) => `@${new URL(url).pathname.replaceAll("/", "")}`;
 
-export function ContactSection({ id }: { id?: string }) {
+export async function ContactSection({ id }: { id?: string }) {
+  const settings = await getSettings();
+  const location = settings?.location || SITE_LOCATION;
+  const email = settings?.email || SITE_EMAIL;
+  const instagramUrl = settings?.instagramUrl || INSTAGRAM_URL;
+
   return (
     <section
       id={id}
@@ -29,8 +35,7 @@ export function ContactSection({ id }: { id?: string }) {
       >
         <span
           style={{
-            fontFamily: "var(--font-times-bold), serif",
-            fontWeight: 700,
+            fontFamily: "var(--font-times), serif",
             fontSize: "clamp(18px, 1.7vw, 23px)",
             lineHeight: "1.6",
           }}
@@ -43,8 +48,7 @@ export function ContactSection({ id }: { id?: string }) {
         <div className="text-center">
           <h2
             style={{
-              fontFamily: "var(--font-times-bold), serif",
-              fontWeight: 700,
+              fontFamily: "var(--font-times), serif",
               fontSize: "clamp(22px, 3vw, 34px)",
               lineHeight: "1.3",
             }}
@@ -59,23 +63,23 @@ export function ContactSection({ id }: { id?: string }) {
               fontSize: "clamp(13px, 1.2vw, 15px)",
             }}
           >
-            <p className="m-0">{SITE_LOCATION}</p>
+            <p className="m-0">{location}</p>
             <p className="m-0 mt-4">
               <a
-                href={`mailto:${SITE_EMAIL}`}
+                href={`mailto:${email}`}
                 className="hover:opacity-60 transition-opacity duration-200"
               >
-                {SITE_EMAIL}
+                {email}
               </a>
             </p>
             <p className="m-0">
               <a
-                href={INSTAGRAM_URL}
+                href={instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:opacity-60 transition-opacity duration-200"
               >
-                {INSTAGRAM_HANDLE}
+                {handleFrom(instagramUrl)}
               </a>
             </p>
           </div>

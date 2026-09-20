@@ -11,12 +11,6 @@ const timesTen = localFont({
   src: [{ path: "./fonts/TimesTenLTStd-Roman.woff2", weight: "400", style: "normal" }],
 });
 
-const timesBold = localFont({
-  variable: "--font-times-bold",
-  display: "swap",
-  src: [{ path: "./fonts/TimesLTStd-Bold.woff2", weight: "700", style: "normal" }],
-});
-
 const DESCRIPTION = `${SITE_NAME} is a London based photographer and director. His images explore themes surrounding intimacy and connection, and celebrate inclusivity and diversity.`;
 const DEFAULT_TITLE = `${SITE_NAME} — Photographer & Director, London`;
 
@@ -128,7 +122,19 @@ const scrollScript = `(function(){
   if(window.visualViewport)window.visualViewport.addEventListener('scroll',upd);
 })();`;
 
-const preloaderScript = `setTimeout(function(){var p=document.getElementById('preloader');if(p){p.style.transition='opacity .5s ease';p.style.opacity='0';setTimeout(function(){if(p)p.style.display='none';},520);}document.body.style.overflow='';},5500);`;
+const preloaderScript = `(function(){
+  function go(){
+    var p=document.getElementById('preloader');
+    var t=p?parseInt(p.getAttribute('data-timeout')||'5500',10)+800:5500;
+    setTimeout(function(){
+      var el=document.getElementById('preloader');
+      if(el){el.style.transition='opacity .5s ease';el.style.opacity='0';setTimeout(function(){if(el)el.style.display='none';},520);}
+      document.body.style.overflow='';
+    },t);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);
+  else go();
+})();`
 
 const lazyVideoScript = `(function(){
   function setup(){
@@ -172,7 +178,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${timesTen.variable} ${timesBold.variable}`}>
+    <html lang="en" className={timesTen.variable}>
       <head>
         <script
           type="application/ld+json"

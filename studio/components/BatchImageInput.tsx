@@ -72,10 +72,10 @@ export function BatchImageInput(props: ArrayOfObjectsInputProps) {
   );
 
   return (
-    <Stack space={3}>
+    <Stack gap={3}>
       {props.renderDefault(props)}
       <Card padding={3} radius={2} tone="primary" border>
-        <Stack space={3}>
+        <Stack gap={3}>
           <Text size={1} muted>
             Upload many at once — select multiple images and they&rsquo;ll be
             added in batches of {BATCH_SIZE} to stay within rate limits. Existing

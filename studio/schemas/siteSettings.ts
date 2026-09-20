@@ -2,9 +2,16 @@ import { defineType, defineField } from "sanity";
 
 export const siteSettings = defineType({
   name: "siteSettings",
-  title: "Settings",
+  title: "Contact & settings",
   type: "document",
   fields: [
+    defineField({
+      name: "location",
+      title: "Location",
+      type: "string",
+      initialValue: "London",
+    }),
+    defineField({ name: "email", title: "Email", type: "string" }),
     defineField({
       name: "instagramUrl",
       title: "Instagram URL",
@@ -12,5 +19,5 @@ export const siteSettings = defineType({
       initialValue: "https://www.instagram.com/marknmarkn/",
     }),
   ],
-  preview: { prepare: () => ({ title: "Settings" }) },
+  preview: { prepare: () => ({ title: "Contact & settings" }) },
 });

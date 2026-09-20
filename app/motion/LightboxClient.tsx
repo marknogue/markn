@@ -86,9 +86,7 @@ export function Lightbox({
             lineHeight: "1.5",
           }}
         >
-          <strong style={{ fontFamily: "var(--font-times-bold), serif", fontWeight: 700 }}>
-            Markn
-          </strong>
+          <span>Markn</span>
           <span style={{ opacity: 0.6 }}>
             {" "}
             / Motion{cell.item.caption ? ` / ${cell.item.caption}` : ""}

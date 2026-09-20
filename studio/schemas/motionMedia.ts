@@ -2,7 +2,7 @@ import { defineType, defineField } from "sanity";
 
 export const motionMedia = defineType({
   name: "motionMedia",
-  title: "Motion item",
+  title: "Film",
   type: "object",
   fields: [
     defineField({
@@ -23,8 +23,7 @@ export const motionMedia = defineType({
       title: "Video",
       type: "file",
       options: { accept: "video/*" },
-      description:
-        "mp4, mov, webm, etc. For best playback across browsers use mp4 (H.264) or webm.",
+      description: "Use mp4 (H.264) for the widest browser support.",
       hidden: ({ parent }) => parent?.type !== "video",
     }),
     defineField({
@@ -36,29 +35,29 @@ export const motionMedia = defineType({
     }),
     defineField({
       name: "poster",
-      title: "Grid thumbnail (GIF)",
+      title: "Grid thumbnail",
       type: "image",
-      options: { hotspot: true, accept: "image/gif" },
+      options: { hotspot: true },
       description:
-        "Optional small looping GIF shown in the grid instead of streaming the full video. Use this for large videos to save bandwidth — it loops in the grid and the full video still plays in the lightbox. Leave blank and the video itself plays in the grid.",
+        "Optional. Shown in the grid instead of the video itself, which saves bandwidth on long films. The full video still plays full screen.",
       hidden: ({ parent }) => parent?.type !== "video",
     }),
     defineField({
       name: "width",
-      title: "Width",
+      title: "Width in pixels",
       type: "number",
-      description: "Pixel width (required for video; helps layout proportions).",
+      description: "Filled in automatically on upload. Used for layout proportions.",
     }),
     defineField({
       name: "height",
-      title: "Height",
+      title: "Height in pixels",
       type: "number",
     }),
     defineField({
       name: "caption",
-      title: "Hover text",
+      title: "Title",
       type: "string",
-      description: "Shown over the item on hover. Leave blank for no label.",
+      description: "Shown over the film on hover. Leave blank for no label.",
     }),
   ],
   preview: {
