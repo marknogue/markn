@@ -162,11 +162,9 @@ export function Preloader({ images }: { images?: PreImg[] }) {
           ref={nameRef}
           className="text-center leading-none whitespace-nowrap"
           style={{
-            fontFamily: "var(--font-times), serif",
+            fontFamily: "var(--font-times-bold), serif",
+            fontWeight: 700,
             fontSize: "clamp(27px, 7.8vw, 108px)",
-            letterSpacing: "0.3em",
-            wordSpacing: "-0.45em",
-            paddingLeft: "0.3em",
             color: "var(--brand-black)",
             opacity: 0,
           }}

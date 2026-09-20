@@ -29,9 +29,9 @@ export function ContactSection({ id }: { id?: string }) {
       >
         <span
           style={{
-            fontFamily: "var(--font-times), serif",
+            fontFamily: "var(--font-times-bold), serif",
+            fontWeight: 700,
             fontSize: "clamp(18px, 1.7vw, 23px)",
-            letterSpacing: "0.01em",
             lineHeight: "1.6",
           }}
         >
@@ -43,9 +43,9 @@ export function ContactSection({ id }: { id?: string }) {
         <div className="text-center">
           <h2
             style={{
-              fontFamily: "var(--font-times), serif",
+              fontFamily: "var(--font-times-bold), serif",
+              fontWeight: 700,
               fontSize: "clamp(22px, 3vw, 34px)",
-              letterSpacing: "0.01em",
               lineHeight: "1.3",
             }}
           >
@@ -57,7 +57,6 @@ export function ContactSection({ id }: { id?: string }) {
             style={{
               fontFamily: "var(--font-times), serif",
               fontSize: "clamp(13px, 1.2vw, 15px)",
-              letterSpacing: "0.02em",
             }}
           >
             <p className="m-0">{SITE_LOCATION}</p>

@@ -5,13 +5,16 @@ import { Footer } from "./components/Footer";
 import { INSTAGRAM_URL, SITE_EMAIL, SITE_LOCATION, SITE_NAME, SITE_URL } from "./lib/site";
 import "./globals.css";
 
-const times = localFont({
+const timesTen = localFont({
   variable: "--font-times",
   display: "swap",
-  src: [
-    { path: "./fonts/TimesTenLTStd-Roman.woff2", weight: "400", style: "normal" },
-    { path: "./fonts/TimesLTStd-Bold.woff2", weight: "700", style: "normal" },
-  ],
+  src: [{ path: "./fonts/TimesTenLTStd-Roman.woff2", weight: "400", style: "normal" }],
+});
+
+const timesBold = localFont({
+  variable: "--font-times-bold",
+  display: "swap",
+  src: [{ path: "./fonts/TimesLTStd-Bold.woff2", weight: "700", style: "normal" }],
 });
 
 const DESCRIPTION = `${SITE_NAME} is a London based photographer and director. His images explore themes surrounding intimacy and connection, and celebrate inclusivity and diversity.`;
@@ -169,7 +172,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={times.variable}>
+    <html lang="en" className={`${timesTen.variable} ${timesBold.variable}`}>
       <head>
         <script
           type="application/ld+json"

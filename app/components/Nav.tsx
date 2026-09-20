@@ -6,9 +6,9 @@ import { SITE_NAME } from "../lib/site";
 type NavLink = { label: string; href: string; external?: boolean };
 
 const NAV_FONT: React.CSSProperties = {
-  fontFamily: "var(--font-times), serif",
+  fontFamily: "var(--font-times-bold), serif",
+  fontWeight: 700,
   fontSize: "clamp(12px, 1.1vw, 13px)",
-  letterSpacing: "0.01em",
   lineHeight: "1.6",
 };
 
@@ -117,10 +117,9 @@ export function Nav() {
         aria-label={SITE_NAME}
         className="block text-[var(--fg)] leading-none text-center whitespace-nowrap"
         style={{
-          fontFamily: "var(--font-times), serif",
+          fontFamily: "var(--font-times-bold), serif",
+          fontWeight: 700,
           fontSize: "clamp(24px, 4vw, 46px)",
-          letterSpacing: "0.15em",
-          paddingLeft: "0.15em",
         }}
       >
         {SITE_NAME}

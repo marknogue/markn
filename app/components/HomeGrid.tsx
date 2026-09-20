@@ -63,9 +63,9 @@ function MediaCard({ item, align }: { item: Item; align: string }) {
           <span
             className="text-[var(--brand-black)]"
             style={{
-              fontFamily: "var(--font-times), serif",
+              fontFamily: "var(--font-times-bold), serif",
+              fontWeight: 700,
               fontSize: "clamp(20px, 2vw, 26px)",
-              letterSpacing: "0.01em",
             }}
           >
             {item.caption}
@@ -92,9 +92,9 @@ function MediaCard({ item, align }: { item: Item; align: string }) {
           <span
             className="block text-center text-[var(--brand-black)]"
             style={{
-              fontFamily: "var(--font-times), serif",
+              fontFamily: "var(--font-times-bold), serif",
+              fontWeight: 700,
               fontSize: "16px",
-              letterSpacing: "0.01em",
             }}
           >
             {item.caption}
@@ -124,10 +124,11 @@ function LightboxHeader({
           fontFamily: "var(--font-times), serif",
           fontSize: "clamp(13px, 1.3vw, 16px)",
           lineHeight: "1.5",
-          letterSpacing: "0.01em",
         }}
       >
-        <strong style={{ fontWeight: 700 }}>Markn</strong>
+        <strong style={{ fontFamily: "var(--font-times-bold), serif", fontWeight: 700 }}>
+            Markn
+          </strong>
         <span style={{ opacity: 0.6 }}>
           {" "}/ Images{caption ? ` / ${caption}` : ""}
         </span>
@@ -355,7 +356,6 @@ function GalleryLightbox({ item }: { item: Item }) {
                 style={{
                   fontFamily: "var(--font-times), serif",
                   fontSize: "clamp(12px, 1.2vw, 15px)",
-                  letterSpacing: "0.04em",
                 }}
               >
                 {String(i + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
@@ -450,9 +450,9 @@ export function HomeGrid({
       >
         <span
           style={{
-            fontFamily: "var(--font-times), serif",
+            fontFamily: "var(--font-times-bold), serif",
+            fontWeight: 700,
             fontSize: "clamp(18px, 1.7vw, 23px)",
-            letterSpacing: "0.01em",
             lineHeight: "1.6",
           }}
         >

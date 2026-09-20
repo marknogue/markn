@@ -5,14 +5,14 @@ export function Footer() {
       style={{ color: "var(--fg)" }}
     >
       <p
-        className="m-0 text-[10px] uppercase tracking-[0.2em] leading-none opacity-30"
+        className="m-0 text-[10px] leading-none opacity-30"
         style={{ fontFamily: "var(--font-times), serif" }}
       >
         © {new Date().getFullYear()} Markn
       </p>
 
       <p
-        className="m-0 text-[10px] uppercase tracking-[0.2em] leading-none opacity-30"
+        className="m-0 text-[10px] leading-none opacity-30"
         style={{ fontFamily: "var(--font-times), serif" }}
       >
         Design &amp; Development —{" "}

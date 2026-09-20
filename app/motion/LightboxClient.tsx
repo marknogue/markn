@@ -84,10 +84,11 @@ export function Lightbox({
             fontFamily: "var(--font-times), serif",
             fontSize: "clamp(13px, 1.3vw, 16px)",
             lineHeight: "1.5",
-            letterSpacing: "0.01em",
           }}
         >
-          <strong style={{ fontWeight: 700 }}>Markn</strong>
+          <strong style={{ fontFamily: "var(--font-times-bold), serif", fontWeight: 700 }}>
+            Markn
+          </strong>
           <span style={{ opacity: 0.6 }}>
             {" "}
             / Motion{cell.item.caption ? ` / ${cell.item.caption}` : ""}
@@ -141,7 +142,6 @@ export function Lightbox({
           style={{
             fontFamily: "var(--font-times), serif",
             fontSize: "clamp(12px, 1.2vw, 15px)",
-            letterSpacing: "0.04em",
           }}
         >
           {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}

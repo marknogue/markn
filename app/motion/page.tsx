@@ -19,9 +19,9 @@ function HoverOverlay({ caption }: { caption?: string }) {
       <span
         className="text-[var(--brand-black)]"
         style={{
-          fontFamily: "var(--font-times), serif",
+          fontFamily: "var(--font-times-bold), serif",
+          fontWeight: 700,
           fontSize: "clamp(13px, 1.1vw, 16px)",
-          letterSpacing: "0.01em",
         }}
       >
         {caption}
@@ -158,9 +158,9 @@ export function MotionSection({ id }: { id?: string }) {
       >
         <span
           style={{
-            fontFamily: "var(--font-times), serif",
+            fontFamily: "var(--font-times-bold), serif",
+            fontWeight: 700,
             fontSize: "clamp(18px, 1.7vw, 23px)",
-            letterSpacing: "0.01em",
             lineHeight: "1.6",
           }}
         >

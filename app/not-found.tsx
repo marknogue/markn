@@ -9,10 +9,10 @@ export default function NotFound() {
       <p
         className="m-0"
         style={{
-          fontFamily: "var(--font-times), serif",
+          fontFamily: "var(--font-times-bold), serif",
+          fontWeight: 700,
           fontSize: "clamp(64px, 14vw, 160px)",
           lineHeight: "1",
-          letterSpacing: "0.02em",
         }}
       >
         404
@@ -23,7 +23,6 @@ export default function NotFound() {
         style={{
           fontFamily: "var(--font-times), serif",
           fontSize: "clamp(16px, 1.8vw, 22px)",
-          letterSpacing: "0.01em",
         }}
       >
         This page could not be found.
@@ -33,10 +32,9 @@ export default function NotFound() {
         href="/"
         className="mt-10 hover:opacity-60 transition-opacity duration-200"
         style={{
-          fontFamily: "var(--font-times), serif",
+          fontFamily: "var(--font-times-bold), serif",
+          fontWeight: 700,
           fontSize: "11px",
-          letterSpacing: "0.22em",
-          textTransform: "uppercase",
         }}
       >
         Back to Images

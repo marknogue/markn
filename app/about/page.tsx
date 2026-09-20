@@ -45,7 +45,6 @@ const byName = (a: string, b: string) =>
 const bodyStyle: React.CSSProperties = {
   fontFamily: "var(--font-times), serif",
   fontSize: "clamp(11px, 1vw, 13px)",
-  letterSpacing: "0.02em",
   lineHeight: "1.6",
 };
 
@@ -88,9 +87,9 @@ export function AboutSection({
         >
           <span
             style={{
-              fontFamily: "var(--font-times), serif",
+              fontFamily: "var(--font-times-bold), serif",
+              fontWeight: 700,
               fontSize: "clamp(18px, 1.7vw, 23px)",
-              letterSpacing: "0.01em",
               lineHeight: "1.6",
             }}
           >
@@ -106,7 +105,6 @@ export function AboutSection({
             fontFamily: "var(--font-times), serif",
             fontSize: "clamp(14px, 1.6vw, 20px)",
             lineHeight: "1.45",
-            letterSpacing: "0.01em",
           }}
         >
           <p className="m-0">
@@ -149,7 +147,6 @@ export function AboutSection({
           style={{
             fontFamily: "var(--font-times), serif",
             fontSize: "clamp(10px, 1vw, 11px)",
-            letterSpacing: "0.04em",
           }}
         >
           {copyright}
