@@ -41,12 +41,10 @@ const CLIENTS = [
 
 const copyright = `All images © ${SITE_NAME}`;
 
-const byName = (a: string, b: string) =>
-  a.localeCompare(b, undefined, { sensitivity: "base" });
-
 const bodyStyle: React.CSSProperties = {
-  fontFamily: "var(--font-times), serif",
+  fontFamily: "var(--font-petit), sans-serif",
   fontSize: "clamp(11px, 1vw, 13px)",
+  letterSpacing: "0.02em",
   lineHeight: "1.6",
 };
 
@@ -59,7 +57,7 @@ function NameList({ title, names }: { title: string; names: string[] }) {
     <div className="mt-[1.8em]" style={bodyStyle}>
       <p className="m-0 opacity-50">{title}</p>
       <ul className="mt-2 m-0 p-0 list-none columns-3 sm:columns-4 lg:columns-5 gap-x-4 sm:gap-x-7 text-left max-w-[680px] mx-auto">
-        {[...names].sort(byName).map((name) => (
+        {names.map((name) => (
           <li key={name} className="break-inside-avoid">
             {name}
           </li>
@@ -102,8 +100,10 @@ export async function AboutSection({
         >
           <span
             style={{
-              fontFamily: "var(--font-times), serif",
+              fontFamily: "var(--font-display), serif",
               fontSize: "clamp(18px, 1.7vw, 23px)",
+              fontWeight: 300,
+              letterSpacing: "0.01em",
               lineHeight: "1.6",
             }}
           >
@@ -116,8 +116,9 @@ export async function AboutSection({
         <div
           className="flex flex-col gap-3"
           style={{
-            fontFamily: "var(--font-times), serif",
+            fontFamily: "var(--font-grand), serif",
             fontSize: "clamp(14px, 1.6vw, 20px)",
+            letterSpacing: "0.01em",
             lineHeight: "1.45",
           }}
         >
@@ -165,8 +166,9 @@ export async function AboutSection({
         <p
           className="m-0 mt-[1.8em] opacity-40"
           style={{
-            fontFamily: "var(--font-times), serif",
+            fontFamily: "var(--font-petit), sans-serif",
             fontSize: "clamp(10px, 1vw, 11px)",
+            letterSpacing: "0.04em",
           }}
         >
           {copyrightLine}

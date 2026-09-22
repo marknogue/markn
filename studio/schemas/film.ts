@@ -1,10 +1,16 @@
 import { defineType, defineField } from "sanity";
 
-export const motionMedia = defineType({
-  name: "motionMedia",
+export const film = defineType({
+  name: "film",
   title: "Film",
-  type: "object",
+  type: "document",
   fields: [
+    defineField({
+      name: "title",
+      title: "Title",
+      type: "string",
+      description: "Shown over the film on hover. Leave blank for no label.",
+    }),
     defineField({
       name: "type",
       title: "Type",
@@ -53,20 +59,13 @@ export const motionMedia = defineType({
       title: "Height in pixels",
       type: "number",
     }),
-    defineField({
-      name: "caption",
-      title: "Title",
-      type: "string",
-      description: "Shown over the film on hover. Leave blank for no label.",
-    }),
   ],
   preview: {
-    select: { image: "image", poster: "poster", type: "type", caption: "caption" },
-    prepare({ image, poster, type, caption }) {
-      const label = type === "video" ? "Video" : "GIF / Image";
+    select: { title: "title", image: "image", poster: "poster", type: "type", file: "video.asset.originalFilename" },
+    prepare({ title, image, poster, type, file }) {
       return {
-        title: caption || label,
-        subtitle: caption ? label : undefined,
+        title: title || file || "Untitled film",
+        subtitle: type === "video" ? "Video" : "GIF / Image",
         media: type === "video" ? poster : image,
       };
     },

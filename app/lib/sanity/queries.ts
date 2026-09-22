@@ -51,11 +51,10 @@ type RawMedia = {
   gallery?: GalleryImg[];
 };
 
-const MEDIA_PROJECTION = `{
+const MEDIA_FIELDS = `
   "type": type,
   "landscape": landscape,
   "link": link,
-  "caption": caption,
   "imgUrl": image.asset->url,
   "imgW": image.asset->metadata.dimensions.width,
   "imgH": image.asset->metadata.dimensions.height,
@@ -68,7 +67,9 @@ const MEDIA_PROJECTION = `{
     "w": asset->metadata.dimensions.width,
     "h": asset->metadata.dimensions.height
   }
-}`;
+`;
+
+const WORK_PROJECTION = `{ ${MEDIA_FIELDS}, "caption": title }`;
 
 function normalize(d: RawMedia): Media | null {
   const gallery = (d.gallery || []).filter((g) => g.src && g.w && g.h);
@@ -99,17 +100,31 @@ function normalize(d: RawMedia): Media | null {
   };
 }
 
-async function mediaItems(docType: string): Promise<Media[] | null> {
-  const raw = await safeFetch<RawMedia[] | null>(
-    `*[_type=="${docType}"][0].items[]${MEDIA_PROJECTION}`
-  );
+function toMedia(raw: (RawMedia | null)[] | null): Media[] | null {
   if (!raw || raw.length === 0) return null;
-  const items = raw.map(normalize).filter((m): m is Media => m !== null);
+  const items = raw
+    .filter((m): m is RawMedia => m !== null)
+    .map(normalize)
+    .filter((m): m is Media => m !== null);
   return items.length ? items : null;
 }
 
-export const getImages = () => mediaItems("imagesPage");
-export const getMotion = () => mediaItems("motionPage");
+const projectList = async (docType: string) =>
+  toMedia(
+    await safeFetch<(RawMedia | null)[] | null>(
+      `*[_type=="${docType}"][0].projects[]->${WORK_PROJECTION}`
+    )
+  );
+
+export const getSelectedWorks = () => projectList("selectedWorksPage");
+export const getPortfolio = () => projectList("portfolioPage");
+
+export const getMotion = async () =>
+  toMedia(
+    await safeFetch<(RawMedia | null)[] | null>(
+      `*[_type=="motionPage"][0].films[]->${WORK_PROJECTION}`
+    )
+  );
 
 export type AboutData = {
   bio: PortableTextBlock[] | null;

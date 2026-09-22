@@ -35,8 +35,10 @@ export async function ContactSection({ id }: { id?: string }) {
       >
         <span
           style={{
-            fontFamily: "var(--font-times), serif",
+            fontFamily: "var(--font-display), serif",
             fontSize: "clamp(18px, 1.7vw, 23px)",
+            fontWeight: 300,
+            letterSpacing: "0.01em",
             lineHeight: "1.6",
           }}
         >
@@ -48,8 +50,9 @@ export async function ContactSection({ id }: { id?: string }) {
         <div className="text-center">
           <h2
             style={{
-              fontFamily: "var(--font-times), serif",
+              fontFamily: "var(--font-grand), serif",
               fontSize: "clamp(22px, 3vw, 34px)",
+              letterSpacing: "0.01em",
               lineHeight: "1.3",
             }}
           >
@@ -59,8 +62,9 @@ export async function ContactSection({ id }: { id?: string }) {
           <div
             className="mt-6 md:mt-8 flex flex-col gap-1 leading-relaxed"
             style={{
-              fontFamily: "var(--font-times), serif",
+              fontFamily: "var(--font-petit), sans-serif",
               fontSize: "clamp(13px, 1.2vw, 15px)",
+              letterSpacing: "0.02em",
             }}
           >
             <p className="m-0">{location}</p>

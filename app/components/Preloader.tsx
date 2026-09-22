@@ -174,8 +174,12 @@ export function Preloader({
           ref={nameRef}
           className="text-center leading-none whitespace-nowrap"
           style={{
-            fontFamily: "var(--font-times), serif",
+            fontFamily: "var(--font-display), serif",
             fontSize: "clamp(27px, 7.8vw, 108px)",
+            fontWeight: 300,
+            letterSpacing: "0.3em",
+            wordSpacing: "-0.45em",
+            paddingLeft: "0.3em",
             color: "var(--brand-black)",
             opacity: 0,
           }}

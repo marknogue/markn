@@ -2,13 +2,35 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Nav } from "./components/Nav";
 import { Footer } from "./components/Footer";
-import { INSTAGRAM_URL, SITE_EMAIL, SITE_LOCATION, SITE_NAME, SITE_URL } from "./lib/site";
+import {
+  INSTAGRAM_URL,
+  SITE_EMAIL,
+  SITE_LOCATION,
+  SITE_NAME,
+  SITE_URL,
+} from "./lib/site";
 import "./globals.css";
 
-const timesTen = localFont({
-  variable: "--font-times",
+const display = localFont({
+  variable: "--font-display",
   display: "swap",
-  src: [{ path: "./fonts/TimesTenLTStd-Roman.woff2", weight: "400", style: "normal" }],
+  src: [{ path: "./fonts/psfournier-light.woff2", weight: "300", style: "normal" }],
+});
+
+const grand = localFont({
+  variable: "--font-grand",
+  display: "swap",
+  src: [
+    { path: "./fonts/psfournier-grand.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/psfournier-grand-italic.woff2", weight: "400", style: "italic" },
+    { path: "./fonts/psfournier-grand-bold.woff2", weight: "700", style: "normal" },
+  ],
+});
+
+const petit = localFont({
+  variable: "--font-petit",
+  display: "swap",
+  src: [{ path: "./fonts/psfournier-petit.woff2", weight: "400", style: "normal" }],
 });
 
 const DESCRIPTION = `${SITE_NAME} is a London based photographer and director. His images explore themes surrounding intimacy and connection, and celebrate inclusivity and diversity.`;
@@ -178,7 +200,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={timesTen.variable}>
+    <html lang="en" className={`${display.variable} ${grand.variable} ${petit.variable}`}>
       <head>
         <script
           type="application/ld+json"

@@ -52,7 +52,7 @@ async function readVideoSize(file: File) {
   });
 }
 
-export function createBatchMediaInput(itemType: string) {
+export function createBatchMediaInput(docType: string) {
   return function BatchMediaInput(props: ArrayOfObjectsInputProps) {
     const { onChange } = props;
     const client = useClient({ apiVersion: "2024-10-01" });
@@ -84,18 +84,18 @@ export function createBatchMediaInput(itemType: string) {
                   }),
                   video ? readVideoSize(file) : readImageSize(file),
                 ]);
-                const ref = { _type: "reference", _ref: asset._id };
-                return {
-                  _type: itemType,
-                  _key: newKey(),
+                const assetRef = { _type: "reference", _ref: asset._id };
+                const media: Record<string, unknown> = video
+                  ? { video: { _type: "file", asset: assetRef } }
+                  : { image: { _type: "image", asset: assetRef } };
+                const doc = await client.create({
+                  _type: docType,
                   type: video ? "video" : "image",
                   width: size.width,
                   height: size.height,
-                  landscape: !!(size.width && size.height && size.width > size.height),
-                  ...(video
-                    ? { video: { _type: "file", asset: ref } }
-                    : { image: { _type: "image", asset: ref } }),
-                };
+                  ...media,
+                });
+                return { _type: "reference", _key: newKey(), _ref: doc._id };
               })
             );
 
@@ -119,9 +119,10 @@ export function createBatchMediaInput(itemType: string) {
         <Card padding={3} radius={2} tone="primary" border>
           <Stack gap={3}>
             <Text size={1} muted>
-              Select many images and videos at once. They upload in batches of{" "}
-              {BATCH_SIZE}, are added to the end of the list, and keep their size
-              and orientation. Drag any item afterwards to change the order.
+              Select many videos or GIFs at once. Each becomes its own entry,
+              uploaded in batches of {BATCH_SIZE} and added to the end of the
+              list with its size filled in. Add titles afterwards, and drag to
+              change the order.
             </Text>
             <input
               ref={inputRef}

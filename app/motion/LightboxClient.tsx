@@ -81,12 +81,13 @@ export function Lightbox({
       >
         <h2
           style={{
-            fontFamily: "var(--font-times), serif",
+            fontFamily: "var(--font-grand), serif",
             fontSize: "clamp(13px, 1.3vw, 16px)",
+            letterSpacing: "0.01em",
             lineHeight: "1.5",
           }}
         >
-          <span>Markn</span>
+          <strong style={{ fontWeight: 600 }}>Markn</strong>
           <span style={{ opacity: 0.6 }}>
             {" "}
             / Motion{cell.item.caption ? ` / ${cell.item.caption}` : ""}
@@ -116,7 +117,7 @@ export function Lightbox({
           right: "8px",
           width: "44px",
           height: "44px",
-          fontFamily: "var(--font-times), serif",
+          fontFamily: "var(--font-grand), serif",
           fontSize: "30px",
         }}
       >
@@ -138,8 +139,9 @@ export function Lightbox({
       >
         <span
           style={{
-            fontFamily: "var(--font-times), serif",
+            fontFamily: "var(--font-grand), serif",
             fontSize: "clamp(12px, 1.2vw, 15px)",
+            letterSpacing: "0.04em",
           }}
         >
           {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}

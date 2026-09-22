@@ -7,11 +7,8 @@ import { useGSAP } from "@gsap/react";
 import { useHash } from "../hooks/useHash";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Preloader } from "./Preloader";
-import { isFullWidth, type Item, type Placed, type GalleryImg } from "../lib/home";
+import { buildColumns, isFullWidth, type Item, type GalleryImg } from "../lib/home";
 import { packRows } from "../lib/mosaic";
-
-type PreImg = { src: string; w: number; h: number };
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -26,7 +23,8 @@ const HLB_CSS = `
 
 function MediaCard({ item, align }: { item: Item; align: string }) {
   const full = isFullWidth(item);
-  const opensLightbox = !!(item.gallery && item.gallery.length) || item.type !== "video";
+  const opensLightbox =
+    !!(item.gallery && item.gallery.length) || item.type !== "video" || item.href === "#";
   const cls = `group/card relative block mx-auto ${align}`;
   const styleW = {
     width: full ? "var(--item-w-full, 92%)" : "var(--item-w, 75%)",
@@ -63,8 +61,9 @@ function MediaCard({ item, align }: { item: Item; align: string }) {
           <span
             className="text-[var(--brand-black)]"
             style={{
-              fontFamily: "var(--font-times), serif",
+              fontFamily: "var(--font-grand), serif",
               fontSize: "clamp(20px, 2vw, 26px)",
+              letterSpacing: "0.01em",
             }}
           >
             {item.caption}
@@ -91,8 +90,9 @@ function MediaCard({ item, align }: { item: Item; align: string }) {
           <span
             className="block text-center text-[var(--brand-black)]"
             style={{
-              fontFamily: "var(--font-times), serif",
+              fontFamily: "var(--font-grand), serif",
               fontSize: "16px",
+              letterSpacing: "0.01em",
             }}
           >
             {item.caption}
@@ -104,9 +104,11 @@ function MediaCard({ item, align }: { item: Item; align: string }) {
 }
 
 function LightboxHeader({
+  section,
   caption,
   absolute = false,
 }: {
+  section: string;
   caption?: string;
   absolute?: boolean;
 }) {
@@ -119,14 +121,15 @@ function LightboxHeader({
     >
       <h2
         style={{
-          fontFamily: "var(--font-times), serif",
+          fontFamily: "var(--font-grand), serif",
           fontSize: "clamp(13px, 1.3vw, 16px)",
+          letterSpacing: "0.01em",
           lineHeight: "1.5",
         }}
       >
-        <span>Markn</span>
+        <strong style={{ fontWeight: 600 }}>Markn</strong>
         <span style={{ opacity: 0.6 }}>
-          {" "}/ Images{caption ? ` / ${caption}` : ""}
+          {" "}/ {section}{caption ? ` / ${caption}` : ""}
         </span>
       </h2>
       <a
@@ -138,7 +141,7 @@ function LightboxHeader({
           right: "8px",
           width: "44px",
           height: "44px",
-          fontFamily: "var(--font-times), serif",
+          fontFamily: "var(--font-grand), serif",
           fontSize: "30px",
           color: "var(--brand-black)",
         }}
@@ -222,7 +225,7 @@ function GalleryRows({
   );
 }
 
-function GalleryLightbox({ item }: { item: Item }) {
+function GalleryLightbox({ item, section }: { item: Item; section: string }) {
   const gallery = item.gallery;
   if (!gallery || !gallery.length) return null;
   const base = `home-lb-${item.id}`;
@@ -257,7 +260,7 @@ function GalleryLightbox({ item }: { item: Item }) {
   return (
     <>
       <div id={base} className="hlb">
-        <LightboxHeader caption={item.caption} />
+        <LightboxHeader section={section} caption={item.caption} />
         <div className="px-5 md:px-10 lg:px-[120px] pb-[6em] max-w-[1400px] mx-auto">
           {uniform ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
@@ -316,7 +319,7 @@ function GalleryLightbox({ item }: { item: Item }) {
         const next = (i + 1) % total;
         return (
           <div key={i} id={`${base}-${i}`} className="hlb-one">
-            <LightboxHeader caption={item.caption} absolute />
+            <LightboxHeader section={section} caption={item.caption} absolute />
             <a
               href={`#${base}-${prev}`}
               aria-label="Previous"
@@ -350,8 +353,9 @@ function GalleryLightbox({ item }: { item: Item }) {
             <div className="absolute bottom-0 left-0 right-0 z-30 text-center pointer-events-none py-4">
               <span
                 style={{
-                  fontFamily: "var(--font-times), serif",
+                  fontFamily: "var(--font-grand), serif",
                   fontSize: "clamp(12px, 1.2vw, 15px)",
+                  letterSpacing: "0.04em",
                 }}
               >
                 {String(i + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
@@ -364,7 +368,7 @@ function GalleryLightbox({ item }: { item: Item }) {
   );
 }
 
-function SingleImageLightbox({ item }: { item: Item }) {
+function SingleImageLightbox({ item, section }: { item: Item; section: string }) {
   if (item.type === "video") return null;
   const base = `home-lb-${item.id}`;
   const hash = useHash();
@@ -376,7 +380,7 @@ function SingleImageLightbox({ item }: { item: Item }) {
 
   return (
     <div id={base} className="hlb-one">
-      <LightboxHeader caption={item.caption} absolute />
+      <LightboxHeader section={section} caption={item.caption} absolute />
       <a href="#!" aria-label="Close" className="absolute inset-0 z-10" />
       <div
         className="absolute left-0 right-0 flex items-center justify-center px-5 md:px-[120px] pointer-events-none"
@@ -399,21 +403,60 @@ function SingleImageLightbox({ item }: { item: Item }) {
   );
 }
 
-export function HomeGrid({
+function VideoLightbox({ item, section }: { item: Item; section: string }) {
+  if (item.type !== "video") return null;
+  const base = `home-lb-${item.id}`;
+  const hash = useHash();
+  const isActive = hash === `#${base}`;
+
+  if (!isActive) {
+    return <div id={base} className="hlb-one" />;
+  }
+
+  return (
+    <div id={base} className="hlb-one">
+      <LightboxHeader section={section} caption={item.caption} absolute />
+      <div
+        className="absolute left-0 right-0 z-20 flex items-center justify-center px-0 md:px-[120px]"
+        style={{ top: "70px", bottom: "70px" }}
+      >
+        <video
+          ref={(el) => {
+            if (!el) return;
+            const playing = el.play();
+            if (playing && playing.catch) playing.catch(() => {});
+          }}
+          src={item.src}
+          loop
+          playsInline
+          controls
+          autoPlay
+          preload="auto"
+          style={{
+            maxWidth: "100%",
+            maxHeight: "100%",
+            width: "auto",
+            height: "auto",
+            objectFit: "contain",
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
+export function ProjectGrid({
+  id,
+  title,
   items,
-  colA,
-  colB,
-  preloaderImages,
-  secondsPerImage,
-  holdSeconds,
+  first = false,
 }: {
+  id: string;
+  title: string;
   items: Item[];
-  colA: Placed[];
-  colB: Placed[];
-  preloaderImages?: PreImg[];
-  secondsPerImage?: number;
-  holdSeconds?: number;
+  first?: boolean;
 }) {
+  const [colA, colB] = buildColumns(items);
   const mainRef = useRef<HTMLElement>(null);
 
   useGSAP(
@@ -437,16 +480,11 @@ export function HomeGrid({
 
   return (
     <section
-      id="images"
+      id={id}
       ref={mainRef}
-      className="pt-[120px] md:pt-[180px] pb-[6em] md:pb-[10em]"
+      className={`${first ? "pt-[120px] md:pt-[180px]" : "pt-[88px] md:pt-[130px]"} pb-[6em] md:pb-[10em]`}
       style={{ backgroundColor: "var(--white-smoke)", color: "var(--brand-black)" }}
     >
-      <Preloader
-        images={preloaderImages}
-        secondsPerImage={secondsPerImage}
-        holdSeconds={holdSeconds}
-      />
       <style dangerouslySetInnerHTML={{ __html: HLB_CSS }} />
       <div
         className="section-name sticky z-20 text-center pb-[2em] md:pb-[4em]"
@@ -454,12 +492,14 @@ export function HomeGrid({
       >
         <span
           style={{
-            fontFamily: "var(--font-times), serif",
+            fontFamily: "var(--font-display), serif",
             fontSize: "clamp(18px, 1.7vw, 23px)",
+            fontWeight: 300,
+            letterSpacing: "0.01em",
             lineHeight: "1.6",
           }}
         >
-          Images
+          {title}
         </span>
       </div>
 
@@ -484,9 +524,11 @@ export function HomeGrid({
 
       {items.map((item) =>
         item.gallery && item.gallery.length ? (
-          <GalleryLightbox key={item.id} item={item} />
-        ) : item.type === "video" ? null : (
-          <SingleImageLightbox key={item.id} item={item} />
+          <GalleryLightbox key={item.id} item={item} section={title} />
+        ) : item.type === "video" ? (
+          item.href === "#" ? <VideoLightbox key={item.id} item={item} section={title} /> : null
+        ) : (
+          <SingleImageLightbox key={item.id} item={item} section={title} />
         )
       )}
     </section>

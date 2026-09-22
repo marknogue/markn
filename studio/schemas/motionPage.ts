@@ -7,13 +7,14 @@ export const motionPage = defineType({
   type: "document",
   fields: [
     defineField({
-      name: "items",
+      name: "films",
       title: "Films",
       type: "array",
-      of: [{ type: "motionMedia" }],
-      components: { input: createBatchMediaInput("motionMedia") },
+      of: [{ type: "reference", to: [{ type: "film" }] }],
+      validation: (r) => r.unique(),
+      components: { input: createBatchMediaInput("film") },
       description:
-        "Drag films to change the order they appear on the site.",
+        "Pick existing films, create one here, or upload several at once. Drag to set the order.",
     }),
   ],
   preview: { prepare: () => ({ title: "Motion" }) },

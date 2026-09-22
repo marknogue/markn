@@ -9,8 +9,9 @@ export default function NotFound() {
       <p
         className="m-0"
         style={{
-          fontFamily: "var(--font-times), serif",
+          fontFamily: "var(--font-grand), serif",
           fontSize: "clamp(64px, 14vw, 160px)",
+          letterSpacing: "0.02em",
           lineHeight: "1",
         }}
       >
@@ -20,8 +21,9 @@ export default function NotFound() {
       <p
         className="m-0 mt-6"
         style={{
-          fontFamily: "var(--font-times), serif",
+          fontFamily: "var(--font-grand), serif",
           fontSize: "clamp(16px, 1.8vw, 22px)",
+          letterSpacing: "0.01em",
         }}
       >
         This page could not be found.
@@ -31,11 +33,13 @@ export default function NotFound() {
         href="/"
         className="mt-10 hover:opacity-60 transition-opacity duration-200"
         style={{
-          fontFamily: "var(--font-times), serif",
+          fontFamily: "var(--font-petit), sans-serif",
           fontSize: "11px",
+          letterSpacing: "0.22em",
+          textTransform: "uppercase",
         }}
       >
-        Back to Images
+        Back to Selected Works
       </Link>
     </main>
   );

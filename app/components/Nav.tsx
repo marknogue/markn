@@ -6,8 +6,10 @@ import { SITE_NAME } from "../lib/site";
 type NavLink = { label: string; href: string; external?: boolean };
 
 const NAV_FONT: React.CSSProperties = {
-  fontFamily: "var(--font-times), serif",
+  fontFamily: "var(--font-display), serif",
   fontSize: "clamp(12px, 1.1vw, 13px)",
+  fontWeight: 300,
+  letterSpacing: "0.01em",
   lineHeight: "1.6",
 };
 
@@ -32,8 +34,11 @@ export function Nav() {
 
   const rows: NavLink[][] = [
     [
-      { label: "Images", href: "/#images" },
+      { label: "Selected Works", href: "/#selected-works" },
+      { label: "Portfolio", href: "/#portfolio" },
       { label: "Motion", href: "/#motion" },
+    ],
+    [
       { label: "About", href: "/#about" },
       { label: "Contact", href: "/#contact" },
     ],
@@ -102,7 +107,7 @@ export function Nav() {
   return (
     <div className="nav-root fixed z-40 top-0 left-1/2 -translate-x-1/2 flex flex-col items-center pt-5 md:pt-7">
       <a
-        href="/#images"
+        href="/#selected-works"
         onClick={(e) => {
           if (isTouch() && isNavHidden()) {
             e.preventDefault();
@@ -110,14 +115,17 @@ export function Nav() {
             return;
           }
           closeNav();
-          scrollToHash(e, "/#images");
+          scrollToHash(e, "/#selected-works");
         }}
         id="brand-logo"
         aria-label={SITE_NAME}
         className="block text-[var(--fg)] leading-none text-center whitespace-nowrap"
         style={{
-          fontFamily: "var(--font-times), serif",
+          fontFamily: "var(--font-display), serif",
           fontSize: "clamp(24px, 4vw, 46px)",
+          fontWeight: 300,
+          letterSpacing: "0.15em",
+          paddingLeft: "0.15em",
         }}
       >
         {SITE_NAME}

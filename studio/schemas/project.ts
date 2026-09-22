@@ -1,14 +1,21 @@
 import { defineType, defineField } from "sanity";
 import { BatchImageInput } from "../components/BatchImageInput";
 
-export const imagesMedia = defineType({
-  name: "imagesMedia",
-  title: "Image or video",
-  type: "object",
+export const project = defineType({
+  name: "project",
+  title: "Project",
+  type: "document",
   fields: [
     defineField({
+      name: "title",
+      title: "Title",
+      type: "string",
+      validation: (r) => r.required(),
+      description: "Shown over the cover on hover, underneath it on phones, and at the top of the gallery.",
+    }),
+    defineField({
       name: "type",
-      title: "Type",
+      title: "Cover type",
       type: "string",
       initialValue: "image",
       options: {
@@ -21,14 +28,14 @@ export const imagesMedia = defineType({
     }),
     defineField({
       name: "image",
-      title: "Image / GIF",
+      title: "Cover image / GIF",
       type: "image",
       options: { hotspot: true },
       hidden: ({ parent }) => parent?.type === "video",
     }),
     defineField({
       name: "video",
-      title: "Video",
+      title: "Cover video",
       type: "file",
       options: { accept: "video/*" },
       description: "Use mp4 (H.264) for the widest browser support.",
@@ -36,22 +43,21 @@ export const imagesMedia = defineType({
     }),
     defineField({
       name: "poster",
-      title: "Thumbnail",
+      title: "Video thumbnail",
       type: "image",
       options: { hotspot: true },
-      description: "A still to represent this video in the Studio list.",
+      description: "A still to represent this video in the Studio.",
       hidden: ({ parent }) => parent?.type !== "video",
     }),
     defineField({
       name: "width",
-      title: "Width in pixels",
+      title: "Video width in pixels",
       type: "number",
-      description: "Filled in automatically on upload. Used for layout proportions.",
       hidden: ({ parent }) => parent?.type !== "video",
     }),
     defineField({
       name: "height",
-      title: "Height in pixels",
+      title: "Video height in pixels",
       type: "number",
       hidden: ({ parent }) => parent?.type !== "video",
     }),
@@ -60,23 +66,16 @@ export const imagesMedia = defineType({
       title: "Full width",
       type: "boolean",
       initialValue: false,
-      description: "Turn on for wide media so it spans the full column width.",
-    }),
-    defineField({
-      name: "caption",
-      title: "Title",
-      type: "string",
-      description:
-        "Shown over the image on hover, and underneath it on phones. Leave blank for no label.",
+      description: "Turn on for a wide cover so it spans the full column width.",
     }),
     defineField({
       name: "gallery",
-      title: "Gallery images",
+      title: "Gallery",
       type: "array",
       of: [{ type: "image", options: { hotspot: true } }],
       components: { input: BatchImageInput },
       description:
-        "Clicking this item opens these images full screen. Upload several at once, then drag to reorder.",
+        "The thumbnails shown when someone clicks the project. Upload many at once, then drag to reorder.",
     }),
     defineField({
       name: "link",
@@ -86,14 +85,9 @@ export const imagesMedia = defineType({
     }),
   ],
   preview: {
-    select: { image: "image", poster: "poster", type: "type", caption: "caption" },
-    prepare({ image, poster, type, caption }) {
-      const label = type === "video" ? "Video" : "Image";
-      return {
-        title: caption || label,
-        subtitle: caption ? label : undefined,
-        media: type === "video" ? poster : image,
-      };
+    select: { title: "title", image: "image", poster: "poster", type: "type" },
+    prepare({ title, image, poster, type }) {
+      return { title: title || "Untitled project", media: type === "video" ? poster : image };
     },
   },
 });

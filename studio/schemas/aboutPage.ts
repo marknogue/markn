@@ -26,16 +26,14 @@ export const aboutPage = defineType({
       title: "Selected publications",
       type: "array",
       of: [{ type: "string" }],
-      options: { layout: "tags" },
-      description: "Shown in alphabetical order on the site.",
+      description: "Drag to set the order they appear in on the site.",
     }),
     defineField({
       name: "clients",
       title: "Select clients",
       type: "array",
       of: [{ type: "string" }],
-      options: { layout: "tags" },
-      description: "Shown in alphabetical order on the site.",
+      description: "Drag to set the order they appear in on the site.",
     }),
     defineField({
       name: "copyright",

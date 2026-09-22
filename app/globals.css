@@ -12,8 +12,8 @@
 @theme inline {
     --color-background: var(--white-smoke);
     --color-foreground: var(--brand-black);
-    --font-sans: var(--font-times);
-    --font-serif: var(--font-times);
+    --font-sans: var(--font-petit);
+    --font-serif: var(--font-grand);
 }
 
 @media (min-width: 768px) {
@@ -26,7 +26,7 @@
 body {
     background-color: var(--bg);
     color: var(--fg);
-    font-family: var(--font-times), serif;
+    font-family: var(--font-petit), sans-serif;
     font-size: 14px;
     line-height: 1.5;
     transition: background-color 0.4s ease, color 0.4s ease;
